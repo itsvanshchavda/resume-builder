@@ -1,0 +1,146 @@
+{
+  "resume": [
+    {
+      "personalInfo": {
+        "name": "Vansh Chavda",
+        "title": "Full Stack Developer",
+        "phone": "+91 9737419935",
+        "email": "vanshchavda328@gmail.com",
+        "linkedin": "http://www.linkedin.com/in/vanshchavda07",
+        "github": "https://github.com/itsvanshchavda",
+        "website": "https://www.vanshchavda.me"
+      },
+      "education": [
+        {
+          "institution": "Sir Bhavsinhji Polytechnic Institute",
+          "location": "Bhavnagar, Gujarat",
+          "degree": "Diploma in Information Technology",
+          "duration": "2021-2024"
+        }
+      ],
+      "experience": [
+        {
+          "title": "Frontend Developer",
+          "company": "Freelancer",
+          "location": "Remote",
+          "duration": "March 2023 - May 2024",
+          "description": "Developed and maintained responsive websites and web applications for clients ,  Collaborated with backend developers to design and implement APIs , Ensured cross-browser compatibility and optimized performance for all projects."
+        },
+        {
+          "title": "Full Stack Developer",
+          "company": "Freelancer",
+          "location": "Remote",
+          "duration": "2021 - Present",
+          "description": "Developed and maintained responsive websites and web applications for clients ,  Collaborated with backend developers to design and implement APIs , Ensured cross-browser compatibility and optimized performance for all projects."
+
+        }
+      ],
+      "projects": [
+        {
+          "name": "Stack Spot - Full Stack Blog",
+          "technologies": [
+            "React JS",
+            "Node JS",
+            "Express JS",
+            "Redux Toolkit",
+            "RTK",
+            "Tailwind CSS"
+          ],
+          "link": "https://stack-blog-landing.vercel.app/",
+          "description": "Developed and maintained responsive websites and web applications for clients ,  Collaborated with backend developers to design and implement APIs , Ensured cross-browser compatibility and optimized performance for all projects."
+
+        },
+        {
+          "name": "Fusion Restaurant",
+          "technologies": [
+            "React JS",
+            "Redux Toolkit",
+            "TypeScript",
+            "Tailwind CSS"
+          ],
+          "link": "https://fusion-restaurant.vercel.app/",
+          "description": "Developed and maintained responsive websites and web applications for clients ,  Collaborated with backend developers to design and implement APIs , Ensured cross-browser compatibility and optimized performance for all projects."
+
+        },
+        {
+          "name": "World News",
+          "technologies": [
+            "Angular 16",
+            "TypeScript",
+            "Material UI",
+            "Tailwind CSS"
+          ],
+          "link": "https://github.com/itsvanshchavda/news-website-angular",
+          "description": "Developed and maintained responsive websites and web applications for clients ,  Collaborated with backend developers to design and implement APIs , Ensured cross-browser compatibility and optimized performance for all projects."
+
+        },
+        {
+          "name": "School Bazar",
+          "technologies": [
+            "React JS",
+            "Tailwind CSS",
+            "Node JS",
+            "MongoDB"
+          ],
+          "link": "https://github.com/itsvanshchavda/news-website-angular",
+          "description": "Developed and maintained responsive websites and web applications for clients ,  Collaborated with backend developers to design and implement APIs , Ensured cross-browser compatibility and optimized performance for all projects."
+
+        }
+      ],
+      "technicalSkills": {
+        "languages": [
+          "Python",
+          "Java",
+          "JavaScript",
+          "TypeScript",
+          "HTML",
+          "CSS",
+          "SCSS",
+          "SQL"
+        ],
+        "frameworks": [
+          "React JS",
+          "Next JS",
+          "Angular 16",
+          "Redux Toolkit (RTK)",
+          "Bootstrap 5",
+          "Tailwind CSS",
+          "Framer Motion"
+        ],
+        "backend": [
+          "Node.js",
+          "Express.js",
+          "MongoDB",
+          "MySQL"
+        ],
+        "tools": [
+          "Problem Solving (Critical Thinking)",
+          "Version Control (Git, GitHub)",
+          "IDEs (Visual Studio Code, Sublime Text)",
+          "Package Managers (npm)",
+          "Browser Developer Tools (Chrome DevTools)",
+          "Responsive Design Principles",
+          "Redux Dev Tools"
+        ]
+      },
+      "achievementsAndCertifications": [
+        {
+          "title": "ZTM (Zero to Mastery) – Full Stack Developer",
+          "year": "2022",
+          "description": "Completed Full Stack Developer course by Andrei Neagoie on Udemy"
+        },
+        {
+          "title": "GSSOC’24 - GirlsScript Summer of Code 2024",
+          "year": "2024",
+          "description": "Open-Source Contributor"
+        },
+        {
+          "title": "GitHub Pro member & GitHub Education Student",
+          "year": "2023",
+          "description": "GitHub Member "
+          
+        }
+      ]
+    }
+  ]
+}
