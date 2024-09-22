@@ -40,7 +40,7 @@ const EditorForm = () => {
   const getData = async () => {
     setLoading(true);
     try {
-      const res = await axios.get('http://localhost:3000/resume');
+      const res = await axios.get('https://resume-builder-json.vercel.app/resume');
       const formData = res.data[0];
 
       const transformedData = {
@@ -93,7 +93,7 @@ const EditorForm = () => {
         }))
       };
 
-      await axios.post('http://localhost:3000/resume', sanitizedValues);
+      await axios.post('https://resume-builder-json.vercel.app/resume', sanitizedValues);
       alert('Data saved successfully');
     } catch (err) {
       console.error(err);

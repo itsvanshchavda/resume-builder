@@ -37,7 +37,7 @@ const ResumePreview = () => {
   const getData = async () => {
     setLoading(true);
     try {
-      const res = await axios.get('http://localhost:3000/resume');
+      const res = await axios.get('https://resume-builder-json.vercel.app/resume');
       setData(res.data[0]);
       setLoading(false);
     } catch (err) {
