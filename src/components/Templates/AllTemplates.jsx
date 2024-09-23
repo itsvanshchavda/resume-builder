@@ -103,43 +103,43 @@ export const Template1 = ({ data, formData }) => {
 
 
         <ResumeSection title="Work Experience">
-          {resume?.experience.map((exp, index) => (
+          {resume?.experience && resume?.experience.map((exp, index) => (
             <div key={index} className="mb-4">
-              <h3 className="font-bold text-lg">{exp.company} - {exp.title}</h3>
-              <p className="text-sm italic mb-2">{exp.location} ({exp.duration})</p>
-              <SafeHTML html={exp.description} />
+              <h3 className="font-bold text-lg">{exp?.company} - {exp?.title}</h3>
+              <p className="text-sm italic mb-2">{exp?.location} ({exp?.duration})</p>
+              <SafeHTML html={exp?.description} />
             </div>
           ))}
         </ResumeSection>
 
 
         <ResumeSection title="Education">
-          {resume.education.map((edu, index) => (
+          {resume?.education?.map((edu, index) => (
             <div key={index} className="mb-2">
               <div className="flex justify-between items-baseline">
-                <h3 className="font-bold">{edu.institution}</h3>
-                <p className="text-sm">{edu.duration}</p>
+                <h3 className="font-bold">{edu?.institution}</h3>
+                <p className="text-sm">{edu?.duration}</p>
               </div>
-              <p>{edu.degree}</p>
-              <p className="text-sm">{edu.location}</p>
+              <p>{edu?.degree}</p>
+              <p className="text-sm">{edu?.location}</p>
             </div>
           ))}
         </ResumeSection>
 
         <ResumeSection title="Projects">
-          {resume.projects.map((proj, index) => (
+          {resume?.projects.map((proj, index) => (
             <div key={index} className="mb-3">
               <div className="flex justify-between items-baseline">
-                <h3 className="font-bold">{proj.name}</h3>
+                <h3 className="font-bold">{proj?.name}</h3>
                 <p className="text-sm">
-                  <a href={proj.link} className="hover:underline">View</a>
+                  <a href={proj?.link} className="hover:underline">View</a>
                 </p>
               </div>
               <p className="text-sm mb-1">
-                <strong>Tech Stack:</strong> {proj.technologies.join(', ')}
+                <strong>Tech Stack:</strong> {proj?.technologies?.join(', ')}
               </p>
               <div className="text-sm">
-                <SafeHTML html={proj.description} />
+                <SafeHTML html={proj?.description} />
               </div>
             </div>
           ))}
@@ -158,11 +158,11 @@ export const Template1 = ({ data, formData }) => {
 
         <ResumeSection title="Achievements and Certifications">
           <ul className="list-disc pl-5 text-sm">
-            {resume.achievementsAndCertifications.map((ach, index) => (
+            {resume?.achievementsAndCertifications?.map((ach, index) => (
               <ListItem key={index}>
-                <span className="font-bold">{ach.title}</span>
-                {ach.year && ` – ${ach.year}`}
-                {ach.description && <span> – <SafeHTML html={ach.description} /></span>}
+                <span className="font-bold">{ach?.title}</span>
+                {ach?.year && ` – ${ach.year}`}
+                {ach?.description && <span> – <SafeHTML html={ach?.description} /></span>}
               </ListItem>
             ))}
           </ul>

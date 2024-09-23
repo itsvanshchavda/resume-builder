@@ -1,6 +1,5 @@
-import { Document, Font, Page, StyleSheet, Text, View } from '@react-pdf/renderer';
+import { Document, Font, Link, Page, StyleSheet, Text, View } from '@react-pdf/renderer';
 import React from 'react';
-import { Html } from 'react-pdf-html';
 import fontRegular from '../../fonts/Tinos-Regular.ttf';
 import fontBold from '../../fonts/Tinos-Bold.ttf';
 import fontItalic from '../../fonts/Tinos-Italic.ttf';
@@ -43,10 +42,12 @@ const styles = StyleSheet.create({
     },
     contactItem: {
         marginHorizontal: 5,
+        color: 'black',
+        textDecoration: 'none',
     },
     sectionTitle: {
-        fontSize: 14,
-        fontWeight: 'bold',
+        fontSize: 12,
+        fontWeight: 'normal',
         marginBottom: 5,
         borderBottomWidth: 1,
         borderBottomColor: '#dedbda',
@@ -65,116 +66,190 @@ const styles = StyleSheet.create({
 
     htmlStyles: {
         fontSize: 12,
-        marginTop: 5,
+        marginTop: 1,
         lineHeight: 1.2,
-        position: 'relative',
-        right: 10,
-        left: 0,
-        top: 0,
     },
-
     listItem: {
         flexDirection: 'row',
-        marginBottom: 2,
+        marginBottom: 4,
+        textAlign: 'justify',
     },
     bullet: {
         width: 10,
-        fontSize: 10,
+        fontSize: 12,
     },
     listItemContent: {
         flex: 1,
-        fontSize: 10,
+        flexDirection: 'row',
+        flexWrap: 'wrap',
     },
 });
 
 
 
+// SafeHtml Component
+const parseHtml = (htmlString) => {
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(htmlString, 'text/html');
+    return doc.body.childNodes;
+};
+
+const renderNode = (node) => {
+    if (node.nodeType === Node.TEXT_NODE) {
+        return node.textContent;
+    }
+
+    if (node.nodeType === Node.ELEMENT_NODE) {
+        const children = Array.from(node.childNodes).map(renderNode);
+
+        switch (node.tagName.toLowerCase()) {
+            case 'p':
+                return <Text>{children}</Text>;
+            case 'ul':
+                return <View>{children}</View>;
+            case 'li':
+                return (
+                    <View style={styles.listItem}>
+                        <Text style={styles.bullet}>• </Text>
+                        <View style={styles.listItemContent}>
+                            {children.map((child, index) => (
+                                <Text key={index}>{child}</Text>
+                            ))}
+                        </View>
+                    </View>
+                );
+            case 'strong':
+                return <Text style={{ fontWeight: 'bold' }}>{children}</Text>;
+            case 'u':
+                return <Text style={{ textDecoration: 'underline' }}>{children}</Text>;
+            default:
+                return <Text>{children}</Text>;
+        }
+    }
+
+    return null;
+};
+
+const SafeHtml = ({ content }) => {
+    if (!content || typeof content !== 'string') {
+        return null;
+    }
+
+    const nodes = parseHtml(content);
+    return (
+        <>
+            {Array.from(nodes).map((node, index) => (
+                <React.Fragment key={index}>
+                    {renderNode(node)}
+                </React.Fragment>
+            ))}
+        </>
+    );
+};
+
+
+
+
+
 // Main PDF Component
 export const Template1Pdf = ({ resumeData }) => {
+    if (!resumeData) {
+        return <Document><Page size="A4"><Text>No resume data available</Text></Page></Document>;
+    }
+
+
     return (
         <Document>
             <Page size="A4" style={styles.page}>
                 {/* Header Section */}
                 <View style={styles.header}>
-                    <Text style={styles.name}>{resumeData.personalInfo.name}</Text>
+                    <Text style={styles.name}>{resumeData.personalInfo?.name || "Test Name"}</Text>
                     <View style={styles.contact}>
-                        <Text style={styles.contactItem}>{resumeData.personalInfo.phone}</Text>
+                        <Text style={styles.contactItem}>{resumeData.personalInfo?.phone || "8764657890"}</Text>
                         <Text style={styles.contactItem}>•</Text>
-                        <Text style={styles.contactItem}>{resumeData.personalInfo.email}</Text>
+                        <Text style={styles.contactItem}>{resumeData.personalInfo?.email || "example@gmail.com"}</Text>
                         <Text style={styles.contactItem}>•</Text>
-                        <Text style={styles.contactItem}>linkedin.com</Text>
+                        <Link href={`${resumeData?.personalInfo?.linkedin}`} style={styles.contactItem} >linkedin.com</Link>
                         <Text style={styles.contactItem}>•</Text>
-                        <Text style={styles.contactItem}>github.com</Text>
+                        <Link href={`${resumeData?.personalInfo?.github}`} style={styles.contactItem}>github.com</Link>
                         <Text style={styles.contactItem}>•</Text>
-                        <Text style={styles.contactItem}>vanshchavda.me</Text>
+                        <Link href={`${resumeData?.personalInfo?.website}`} style={styles.contactItem}>vanshchavda.me</Link>
                     </View>
                 </View>
 
                 {/* Work Experience */}
-                <View style={styles.section}>
-                    <Text style={styles.sectionTitle}>Work Experience</Text>
-                    {resumeData?.experience?.map((exp, index) => (
-                        <View key={index} style={{ marginBottom: 10 }}>
-                            <Text style={styles.companyTitle}>{exp.company} - {exp.title}</Text>
-                            <Text style={styles.dateLocation}>{exp.location} ({exp.duration})</Text>
-                            {/* Render description using Html component */}
-                            <Html style={styles.htmlStyles}>{exp.description}</Html>
-                        </View>
-                    ))}
-                </View>
+                {resumeData?.experience && resumeData.experience.length > 0 && (
+                    <View style={styles.section}>
+                        <Text style={styles.sectionTitle}>Work Experience</Text>
+                        {resumeData.experience.map((exp, index) => (
+                            <View key={index} >
+                                <Text style={styles.companyTitle}>{exp?.company || 'Company'} - {exp?.title || 'Title'}</Text>
+                                <Text style={styles.dateLocation}>{exp?.location || 'Location'} ({exp?.duration || 'Duration'})</Text>
+                                {exp?.description ? <SafeHtml content={exp?.description} /> : exp?.description}
+                            </View>
+                        ))}
+                    </View>
+                )}
 
                 {/* Education */}
-                <View style={styles.section}>
-                    <Text style={styles.sectionTitle}>Education</Text>
-                    {resumeData?.education?.map((edu, index) => (
-                        <View key={index} style={{ marginBottom: 10 }}>
-                            <Text style={styles.companyTitle}>{edu.institution}</Text>
-                            <Text style={styles.dateLocation}>{edu.duration}</Text>
-                            <Text>{edu.degree}</Text>
-                            <Text>{edu.location}</Text>
-                        </View>
-                    ))}
-                </View>
+                {resumeData?.education && resumeData?.education.length > 0 && (
+                    <View style={styles.section}>
+                        <Text style={styles.sectionTitle}>Education</Text>
+                        {resumeData?.education.map((edu, index) => (
+                            <View key={index} >
+                                <Text style={styles.companyTitle}>{edu?.institution || 'Institution'}</Text>
+                                <Text style={styles.dateLocation}>{edu?.duration || 'Duration'}</Text>
+                                <Text>{edu?.degree || 'Degree'}</Text>
+                                <Text>{edu?.location || 'Location'}</Text>
+                            </View>
+                        ))}
+                    </View>
+                )}
 
                 {/* Projects */}
-                <View style={styles.section}>
-                    <Text style={styles.sectionTitle}>Projects</Text>
-                    {resumeData?.projects?.map((proj, index) => (
-                        <View key={index} style={{ marginBottom: 10 }}>
-                            <Text style={styles.companyTitle}>{proj.name}</Text>
-                            <Text style={styles.dateLocation}>{proj.link}</Text>
-                            <Text>
-                                <Text style={{ fontWeight: 'bold' }}>Tech Stack:</Text> {proj.technologies.join(', ')}
-                            </Text>
-                            <Html style={styles.htmlStyles}>{proj.description}</Html>
-                        </View>
-                    ))}
-                </View>
-
+                {resumeData?.projects && resumeData?.projects.length > 0 && (
+                    <View style={styles.section}>
+                        <Text style={styles.sectionTitle}>Projects</Text>
+                        {resumeData.projects.map((proj, index) => (
+                            <View key={index} >
+                                <Text style={styles.companyTitle}>{proj?.name || 'Project Name'}</Text>
+                                <Text style={styles.dateLocation}>{proj?.link || 'Project Link'}</Text>
+                                <Text>
+                                    <Text style={{ fontWeight: 'bold' }}>Tech Stack:</Text> {proj?.technologies ? proj?.technologies?.join(', ') : 'Not specified'}
+                                </Text>
+                                {proj?.description ? <SafeHtml content={proj?.description} /> : proj?.description}
+                            </View>
+                        ))}
+                    </View>
+                )}
                 {/* Technical Skills */}
-                <View style={styles.section}>
-                    <Text style={styles.sectionTitle}>Technical Skills</Text>
-                    {Object.entries(resumeData.technicalSkills).map(([category, skills]) => (
-                        <View key={category} style={{ marginBottom: 5 }}>
-                            <Text style={{ fontWeight: 'bold' }}>{category}:</Text>
-                            <Text>{skills.join(', ')}</Text>
-                        </View>
-                    ))}
-                </View>
+                {resumeData?.technicalSkills && Object.keys(resumeData?.technicalSkills).length > 0 && (
+                    <View style={styles.section}>
+                        <Text style={styles.sectionTitle}>Technical Skills</Text>
+                        {Object.entries(resumeData?.technicalSkills).map(([category, skills]) => (
+                            <View key={category}>
+                                <Text style={{ fontWeight: 'bold' }}>{category}:</Text>
+                                <Text>{Array.isArray(skills) ? skills.join(', ') : 'Not specified'}</Text>
+                            </View>
+                        ))}
+                    </View>
+                )}
 
                 {/* Achievements and Certifications */}
-                <View style={styles.section}>
-                    <Text style={styles.sectionTitle}>Achievements and Certifications</Text>
-                    {resumeData?.achievementsAndCertifications?.map((ach, index) => (
-                        <View key={index} style={{ marginBottom: 5 }}>
-                            <Text>
-                                <Text style={{ fontWeight: 'bold' }}>{ach.title}</Text>
-                                {ach.year && ` – ${ach.year}`}
-                            </Text>
-                            {ach.description && <Html style={styles.htmlStyles}>{ach.description}</Html>}
-                        </View>
-                    ))}
-                </View>
+                {resumeData?.achievementsAndCertifications && resumeData?.achievementsAndCertifications.length > 0 && (
+                    <View style={styles.section}>
+                        <Text style={styles.sectionTitle}>Achievements and Certifications</Text>
+                        {resumeData?.achievementsAndCertifications.map((ach, index) => (
+                            <View key={index}>
+                                <Text>
+                                    <Text style={{ fontWeight: 'bold' }}>{ach?.title || 'Achievement'}</Text>
+                                    {ach?.year && ` – ${ach?.year}`}
+                                </Text>
+                                {ach?.description ? <SafeHtml content={ach?.description} /> : ach?.description}
+                            </View>
+                        ))}
+                    </View>
+                )}
             </Page>
         </Document>
     );
