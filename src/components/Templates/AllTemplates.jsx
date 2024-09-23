@@ -52,7 +52,6 @@ const sharedStyles = `
 export const Template1 = ({ data, formData }) => {
 
   const {description} = useSelector((state) => state.resume);
-  console.log("🚀 ~ Template1 ~ description:", description)
 
 
 
@@ -65,7 +64,6 @@ export const Template1 = ({ data, formData }) => {
     achievementsAndCertifications: formData?.achievementsAndCertifications || data?.achievementsAndCertifications || []
   };
 
-  console.log(resume);
 
   return (
     <div className="p-6 bg-white overflow-y-auto h-screen">
