@@ -60,6 +60,17 @@ const EditorForm = () => {
       };
 
 
+   
+
+      if (formData?.projects?.length === 0) {
+        delete transformedData.projects;
+      }
+
+      if (formData?.experience?.length === 0) {
+        delete transformedData.experience;
+      }
+
+
 
       form.setFieldsValue(transformedData);
     } catch (err) {
@@ -111,7 +122,6 @@ const EditorForm = () => {
 
       };
 
-      // Remove empty sections
       Object.keys(sanitizedValues).forEach(key => {
         if (Array.isArray(sanitizedValues[key]) && sanitizedValues[key].length === 0) {
           delete sanitizedValues[key];
@@ -185,7 +195,7 @@ const EditorForm = () => {
                         />
                       </Form.Item>
                       <Form.Item {...restField} name={[name, 'duration']} label="Employment Dates">
-                      <Input placeholder="Enter Dates" />
+                        <Input placeholder="Enter Dates" />
                       </Form.Item>
                       <Form.Item {...restField} name={[name, 'location']} label="Enter Location">
                         <Input placeholder="Enter location" />

@@ -51,7 +51,7 @@ const sharedStyles = `
 
 export const Template1 = ({ data, formData }) => {
 
-  const {description} = useSelector((state) => state.resume);
+  const { description } = useSelector((state) => state.resume);
 
 
 
@@ -67,7 +67,7 @@ export const Template1 = ({ data, formData }) => {
 
   return (
     <div className="p-6 bg-white overflow-y-auto h-screen">
-    
+
       <style jsx="true" global="true" >{`
       @import url('https://fonts.googleapis.com/css2?family=Tinos:ital,wght@0,400;0,700;1,400;1,700&display=swap');
         body {
@@ -100,71 +100,84 @@ export const Template1 = ({ data, formData }) => {
         </header>
 
 
-        <ResumeSection title="Work Experience">
-          {resume?.experience && resume?.experience.map((exp, index) => (
-            <div key={index} className="mb-4">
-              <h3 className="font-bold text-lg">{exp?.company} - {exp?.title}</h3>
-              <p className="text-sm italic mb-2">{exp?.location} ({exp?.duration})</p>
-              <SafeHTML html={exp?.description} />
-            </div>
-          ))}
-        </ResumeSection>
-
-
-        <ResumeSection title="Education">
-          {resume?.education?.map((edu, index) => (
-            <div key={index} className="mb-2">
-              <div className="flex justify-between items-baseline">
-                <h3 className="font-bold">{edu?.institution}</h3>
-                <p className="text-sm">{edu?.duration}</p>
+        {resume.experience.length > 0 ? (
+          <ResumeSection title="Work Experience">
+            {resume?.experience && resume?.experience.map((exp, index) => (
+              <div key={index} className="mb-4">
+                <h3 className="font-bold text-lg">{exp?.company} - {exp?.title}</h3>
+                <p className="text-sm italic mb-2">{exp?.location} ({exp?.duration})</p>
+                <SafeHTML html={exp?.description} />
               </div>
-              <p>{edu?.degree}</p>
-              <p className="text-sm">{edu?.location}</p>
-            </div>
-          ))}
-        </ResumeSection>
+            ))}
+          </ResumeSection>
+        ) : null}
 
-        <ResumeSection title="Projects">
-          {resume?.projects.map((proj, index) => (
-            <div key={index} className="mb-3">
-              <div className="flex justify-between items-baseline">
-                <h3 className="font-bold">{proj?.name}</h3>
-                <p className="text-sm">
-                  <a href={proj?.link} className="hover:underline">View</a>
+
+        {resume.education.length > 0 ? (
+          <ResumeSection title="Education">
+            {resume?.education?.map((edu, index) => (
+              <div key={index} className="mb-2">
+                <div className="flex justify-between items-baseline">
+                  <h3 className="font-bold">{edu?.institution}</h3>
+                  <p className="text-sm">{edu?.duration}</p>
+                </div>
+                <p>{edu?.degree}</p>
+                <p className="text-sm">{edu?.location}</p>
+              </div>
+            ))}
+          </ResumeSection>
+        ) : null}
+
+        {resume.projects.length > 0 ? (
+          <ResumeSection title="Projects">
+            {resume?.projects.map((proj, index) => (
+              <div key={index} className="mb-3">
+                <div className="flex justify-between items-baseline">
+                  <h3 className="font-bold">{proj?.name}</h3>
+                  <p className="text-sm">
+                    <a href={proj?.link} className="hover:underline">View</a>
+                  </p>
+                </div>
+                <p className="text-sm mb-1">
+                  <strong>Tech Stack:</strong> {proj?.technologies?.join(', ')}
                 </p>
+                <div className="text-sm">
+                  <SafeHTML html={proj?.description} />
+                </div>
               </div>
-              <p className="text-sm mb-1">
-                <strong>Tech Stack:</strong> {proj?.technologies?.join(', ')}
-              </p>
-              <div className="text-sm">
-                <SafeHTML html={proj?.description} />
-              </div>
+            ))}
+          </ResumeSection>
+        ) : null}
+
+
+        {resume.technicalSkills.length > 0 ? (
+          <ResumeSection title="Technical Skills">
+            <div className="grid grid-cols-1 gap-2">
+              {Object.entries(resume.technicalSkills).map(([category, skills]) => (
+                <div key={category}>
+                  <h3 className="font-bold capitalize">{category}:</h3>
+                  <p className="text-sm">{skills.join(', ')}</p>
+                </div>
+              ))}
             </div>
-          ))}
-        </ResumeSection>
+          </ResumeSection>
 
-        <ResumeSection title="Technical Skills">
-          <div className="grid grid-cols-1 gap-2">
-            {Object.entries(resume.technicalSkills).map(([category, skills]) => (
-              <div key={category}>
-                <h3 className="font-bold capitalize">{category}:</h3>
-                <p className="text-sm">{skills.join(', ')}</p>
-              </div>
-            ))}
-          </div>
-        </ResumeSection>
+        ) : null}
 
-        <ResumeSection title="Achievements and Certifications">
-          <ul className="list-disc pl-5 text-sm">
-            {resume?.achievementsAndCertifications?.map((ach, index) => (
-              <ListItem key={index}>
-                <span className="font-bold">{ach?.title}</span>
-                {ach?.year && ` – ${ach.year}`}
-                {ach?.description && <span> – <SafeHTML html={ach?.description} /></span>}
-              </ListItem>
-            ))}
-          </ul>
-        </ResumeSection>
+
+        {resume.achievementsAndCertifications.length > 0 ? (
+          <ResumeSection title="Achievements and Certifications">
+            <ul className="list-disc pl-5 text-sm">
+              {resume?.achievementsAndCertifications?.map((ach, index) => (
+                <ListItem key={index}>
+                  <span className="font-bold">{ach?.title}</span>
+                  {ach?.year && ` – ${ach.year}`}
+                  {ach?.description && <span> – <SafeHTML html={ach?.description} /></span>}
+                </ListItem>
+              ))}
+            </ul>
+          </ResumeSection>
+        ) : null}
       </div>
     </div>
   )

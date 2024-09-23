@@ -178,7 +178,7 @@ export const Template1Pdf = ({ resumeData }) => {
                 </View>
 
                 {/* Work Experience */}
-                {resumeData?.experience && resumeData.experience.length > 0 && (
+                {resumeData?.experience && resumeData.experience.length > 0 ? (
                     <View style={styles.section}>
                         <Text style={styles.sectionTitle}>Work Experience</Text>
                         {resumeData.experience.map((exp, index) => (
@@ -189,10 +189,10 @@ export const Template1Pdf = ({ resumeData }) => {
                             </View>
                         ))}
                     </View>
-                )}
+                ) : null}
 
                 {/* Education */}
-                {resumeData?.education && resumeData?.education.length > 0 && (
+                {resumeData?.education && resumeData?.education.length > 0 ? (
                     <View style={styles.section}>
                         <Text style={styles.sectionTitle}>Education</Text>
                         {resumeData?.education.map((edu, index) => (
@@ -204,10 +204,10 @@ export const Template1Pdf = ({ resumeData }) => {
                             </View>
                         ))}
                     </View>
-                )}
+                ) : null}
 
                 {/* Projects */}
-                {resumeData?.projects && resumeData?.projects.length > 0 && (
+                {resumeData?.projects && resumeData?.projects.length > 0 ? (
                     <View style={styles.section}>
                         <Text style={styles.sectionTitle}>Projects</Text>
                         {resumeData.projects.map((proj, index) => (
@@ -221,9 +221,9 @@ export const Template1Pdf = ({ resumeData }) => {
                             </View>
                         ))}
                     </View>
-                )}
+                ) : null}
                 {/* Technical Skills */}
-                {resumeData?.technicalSkills && Object.keys(resumeData?.technicalSkills).length > 0 && (
+                {resumeData?.technicalSkills && Object.keys(resumeData?.technicalSkills).length > 0 ? (
                     <View style={styles.section}>
                         <Text style={styles.sectionTitle}>Technical Skills</Text>
                         {Object.entries(resumeData?.technicalSkills).map(([category, skills]) => (
@@ -233,10 +233,10 @@ export const Template1Pdf = ({ resumeData }) => {
                             </View>
                         ))}
                     </View>
-                )}
+                ):null}
 
                 {/* Achievements and Certifications */}
-                {resumeData?.achievementsAndCertifications && resumeData?.achievementsAndCertifications.length > 0 && (
+                {resumeData?.achievementsAndCertifications && resumeData?.achievementsAndCertifications.length > 0 ? (
                     <View style={styles.section}>
                         <Text style={styles.sectionTitle}>Achievements and Certifications</Text>
                         {resumeData?.achievementsAndCertifications.map((ach, index) => (
@@ -249,7 +249,7 @@ export const Template1Pdf = ({ resumeData }) => {
                             </View>
                         ))}
                     </View>
-                )}
+                ): null}
             </Page>
         </Document>
     );
